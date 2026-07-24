@@ -44,7 +44,7 @@ export default function AIConsole() {
       </div>
 
       {/* Preset Query Chips */}
-      <div style={{ display: 'flex', gap: '8px', padding: '12px 0', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px 0' }}>
         {PRESET_AI_QUERIES.map((query, i) => (
           <button
             key={i}
@@ -55,10 +55,10 @@ export default function AIConsole() {
               color: '#334155',
               fontSize: '0.78rem',
               fontWeight: 600,
-              padding: '6px 14px',
-              borderRadius: '20px',
+              padding: '8px 14px',
+              borderRadius: '12px',
               cursor: 'pointer',
-              whiteSpace: 'nowrap',
+              textAlign: 'left',
               transition: 'all 0.2s ease'
             }}
             onMouseOver={e => e.target.style.background = '#e2e8f0'}
