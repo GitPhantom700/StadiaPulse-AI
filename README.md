@@ -17,15 +17,15 @@
   <img src="images/demo.gif" alt="StadiaPulse AI Demo" width="300"/>
 </p>
 
-#### Mobile Attendee Experience
+#### Attendee Experience
 <p align="center">
-  <img src="images/attendee_ticket.png" alt="Digital Ticket QR Wallet" width="300"/>
-  <img src="images/attendee_gates.png" alt="Entry Gates & Routing" width="300"/>
-  <img src="images/attendee_heatmap.png" alt="Interactive Heatmap" width="300"/>
-  <img src="images/attendee_food.png" alt="Express Concessions" width="300"/>
-  <img src="images/attendee_restrooms.png" alt="Restroom Tracker" width="300"/>
-  <img src="images/attendee_stadiabot.png" alt="StadiaBot AI" width="300"/>
-  <img src="images/attendee_friends.png" alt="Group Radar" width="300"/>
+  <img src="images/attendee_ticket.png" alt="Digital Ticket QR Wallet" width="900"/><br><br>
+  <img src="images/attendee_gates.png" alt="Entry Gates & Routing" width="900"/><br><br>
+  <img src="images/attendee_heatmap.png" alt="Interactive Heatmap" width="900"/><br><br>
+  <img src="images/attendee_food.png" alt="Express Concessions" width="900"/><br><br>
+  <img src="images/attendee_restrooms.png" alt="Restroom Tracker" width="900"/><br><br>
+  <img src="images/attendee_stadiabot.png" alt="StadiaBot AI" width="900"/><br><br>
+  <img src="images/attendee_friends.png" alt="Group Radar" width="900"/>
 </p>
 
 #### Operations Command Center
