@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-Automated_Deploy-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions)
 
-> **PromptWars Virtual — Challenge 1 Winning Submission**  
+> **PromptWars Virtual — Challenge 1 Submission**  
 > *Real-time stadium crowd intelligence, AI gate routing, express concession ordering, and telemetry dashboard powered by React 19 & Google Antigravity AI.*
 
 ---
