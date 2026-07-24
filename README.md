@@ -14,7 +14,7 @@
 
 #### 🎥 App Walkthrough
 <p align="center">
-  <img src="images/demo.gif" alt="StadiaPulse AI Demo" width="300"/>
+  <img src="images/demo.gif" alt="StadiaPulse AI Demo" width="900"/>
 </p>
 
 #### Attendee Experience
@@ -32,6 +32,26 @@
 <p align="center">
   <img src="images/ops_dashboard.png" alt="Operations Dashboard" width="900"/>
 </p>
+
+---
+
+## 🤖 StadiaBot AI RAG Prompts
+
+StadiaPulse uses Google Gemini and Retrieval-Augmented Generation (RAG) to provide real-time venue intelligence. Here are some sample prompts you can use to test the AI capabilities directly in the **StadiaBot AI** tab:
+
+1. **Queue & Traffic Routing**
+   - *"What is the wait time for Gate A right now?"*
+   - *"Which gate is the fastest to enter the stadium right now?"*
+   - *"I'm in Section 106, is the East Concourse crowded?"*
+
+2. **Facilities & Concessions**
+   - *"Where is the nearest hot dog stand to Section 112?"*
+   - *"Are the restrooms crowded near Sec 112?"*
+   - *"How long is the line for the burger stall?"*
+
+3. **General Venue Queries**
+   - *"What time does the event start?"*
+   - *"What's the fastest way to get to my seat in Sec 209?"*
 
 ---
 
