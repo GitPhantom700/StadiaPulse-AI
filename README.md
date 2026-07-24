@@ -12,14 +12,16 @@
 
 ### 📸 Application Previews
 
+*(Please take real screenshots of your application and save them in the `images/` folder with these names, or replace these links with your actual screenshots)*
+
 #### Mobile Attendee Experience
-<img src="images/attendee_view.jpg" alt="Mobile Attendee View" width="800"/>
+<img src="images/attendee_view_real.png" alt="Mobile Attendee View" width="800"/>
 
 #### Operations Command Center
-<img src="images/ops_dashboard.jpg" alt="Operations Dashboard" width="800"/>
+<img src="images/ops_dashboard_real.png" alt="Operations Dashboard" width="800"/>
 
 #### StadiaBot Conversational AI
-<img src="images/stadiabot_ai.jpg" alt="StadiaBot AI" width="800"/>
+<img src="images/stadiabot_ai_real.png" alt="StadiaBot AI" width="800"/>
 
 ---
 
