@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { INITIAL_GATES, INITIAL_SECTORS, RESTROOMS, CONCESSIONS, FRIENDS_LIST } from '../data/mockVenueData';
 import confetti from 'canvas-confetti';
+import stadiumKnowledge from '../data/stadium_knowledge.json';
 
 const VenueContext = createContext(null);
 
@@ -108,35 +109,123 @@ export const VenueProvider = ({ children }) => {
     showToast(`✅ Express Order placed with ${concession.name}! Order #${newOrder.id}`);
   };
 
+  const [geminiApiKey, setGeminiApiKey] = useState(localStorage.getItem('geminiApiKey') || '');
+
+  useEffect(() => {
+    if (geminiApiKey) {
+      localStorage.setItem('geminiApiKey', geminiApiKey);
+    } else {
+      localStorage.removeItem('geminiApiKey');
+    }
+  }, [geminiApiKey]);
+
   // Handle AI Bot queries intelligently
-  const askAIAssistant = (userQuery) => {
+  const askAIAssistant = async (userQuery) => {
     const userMsg = { id: Date.now(), sender: 'user', text: userQuery, timestamp: 'Just now' };
     setChatMessages(prev => [...prev, userMsg]);
 
-    setTimeout(() => {
-      let botResponse = "";
-      const q = userQuery.toLowerCase();
+    if (!geminiApiKey) {
+      setTimeout(() => {
+        setChatMessages(prev => [...prev, {
+          id: Date.now() + 1,
+          sender: 'bot',
+          text: '⚠️ **Missing API Key**: Please enter your Gemini API Key in the settings below to enable live AI routing!',
+          timestamp: 'Just now'
+        }]);
+      }, 500);
+      return;
+    }
 
-      if (q.includes('gate') || q.includes('entry') || q.includes('wait time')) {
-        const bestGate = [...gates].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
-        botResponse = `✨ **Gate Recommendation**: **${bestGate.name}** currently has the shortest queue with only a **${bestGate.waitMinutes}-minute wait**! Avoid Gate A (18-min queue).`;
-      } else if (q.includes('restroom') || q.includes('toilet') || q.includes('bathroom')) {
-        const bestRR = [...restrooms].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
-        botResponse = `🚽 The shortest restroom line is at **${bestRR.location}** with an estimated wait of **${bestRR.waitMinutes} minutes** (${bestRR.openStalls} stalls available).`;
-      } else if (q.includes('drink') || q.includes('beer') || q.includes('food') || q.includes('eat')) {
-        const bestFood = [...concessions].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
-        botResponse = `🍔 I recommend **${bestFood.name}** (${bestFood.sector}). Wait time is only **${bestFood.waitMinutes} mins** with Express Mobile Pickup!`;
-      } else if (q.includes('crowd') || q.includes('fan zone') || q.includes('sector')) {
-        botResponse = `📊 Current Stadium Overview: **South Fan Zone (Sec 113)** is heavily crowded (94% capacity). **East Concourse (Sec 106)** is breezy with 42% density!`;
-      } else {
-        botResponse = `🤖 I've analyzed stadium sensors for: "${userQuery}". All telemetry indicators show optimal flow around East Concourse (Sec 106). Gate B is your best entry point!`;
+    try {
+      // RAG Retrieval Step
+      const queryLower = userQuery.toLowerCase();
+      let retrievedKnowledge = [];
+      stadiumKnowledge.forEach(item => {
+        if (item.keywords.some(kw => queryLower.includes(kw))) {
+          retrievedKnowledge.push(item.policy);
+        }
+      });
+      const knowledgeContext = retrievedKnowledge.length > 0 
+        ? `\nOFFICIAL STADIUM KNOWLEDGE:\n- ${retrievedKnowledge.join('\n- ')}\n` 
+        : '';
+
+      // Direct REST API call to Gemini
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${geminiApiKey.trim()}`;
+      const altEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey.trim()}`;
+
+      const promptText = `You are StadiaBot, an AI assistant for a massive sporting venue.
+Your job is to give short, concise, and helpful answers to fans based on the live stadium telemetry and official knowledge below. 
+Be enthusiastic, use emojis, and format your responses with bolding for emphasis. 
+Keep answers under 3 sentences.${knowledgeContext}
+LIVE TELEMETRY:
+- Gates: ${JSON.stringify(gates.map(g => ({ name: g.name, waitMinutes: g.waitMinutes, status: g.status })))}
+- Restrooms: ${JSON.stringify(restrooms.map(r => ({ location: r.location, waitMinutes: r.waitMinutes })))}
+- Food: ${JSON.stringify(concessions.map(c => ({ name: c.name, waitMinutes: c.waitMinutes })))}
+- Sectors: ${JSON.stringify(sectors.map(s => ({ name: s.name, densityPercent: s.densityPercent })))}
+
+USER QUERY: "${userQuery}"`;
+
+      let res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+      });
+
+      if (!res.ok) {
+        // Try fallback endpoint
+        res = await fetch(altEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+        });
       }
 
-      setChatMessages(prev => [
-        ...prev,
-        { id: Date.now() + 1, sender: 'bot', text: botResponse, timestamp: 'Just now' }
-      ]);
-    }, 600);
+      if (res.ok) {
+        const data = await res.json();
+        const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (responseText) {
+          setChatMessages(prev => [...prev, {
+            id: Date.now() + 1,
+            sender: 'bot',
+            text: `✨ **[Gemini AI Live]**\n${responseText}`,
+            timestamp: 'Just now'
+          }]);
+          return;
+        }
+      }
+
+      const errData = await res.json().catch(() => ({}));
+      const errMsg = errData.error?.message || `HTTP ${res.status}: ${res.statusText}`;
+
+      // Fallback to Smart Telemetry Engine if API Key is rejected by Google
+      const q = userQuery.toLowerCase();
+      let fallbackText = "";
+      if (q.includes('gate') || q.includes('entry') || q.includes('wait time')) {
+        const bestGate = [...gates].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
+        fallbackText = `✨ **Gate Recommendation**: **${bestGate.name}** currently has the shortest queue with only a **${bestGate.waitMinutes}-minute wait**! Avoid Gate A.`;
+      } else if (q.includes('restroom') || q.includes('toilet') || q.includes('bathroom')) {
+        const bestRR = [...restrooms].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
+        fallbackText = `🚽 The shortest restroom line is at **${bestRR.location}** with an estimated wait of **${bestRR.waitMinutes} minutes** (${bestRR.openStalls} stalls available).`;
+      } else if (q.includes('drink') || q.includes('beer') || q.includes('food') || q.includes('eat')) {
+        const bestFood = [...concessions].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
+        fallbackText = `🍔 I recommend **${bestFood.name}** (${bestFood.sector}). Wait time is only **${bestFood.waitMinutes} mins** with Express Mobile Pickup!`;
+      } else {
+        fallbackText = `🤖 I've analyzed stadium sensors for: "${userQuery}". All telemetry indicators show optimal flow around East Concourse (Sec 106). Gate B is your best entry point!`;
+      }
+
+      setChatMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        sender: 'bot',
+        text: `⚠️ **[Google API Rejected Key: ${errMsg}]**\n\n⚡ **[Fallback Telemetry AI Response]**\n${fallbackText}`,
+        timestamp: 'Just now'
+      }]);
+
+    } catch (err) {
+      console.error(err);
+      setChatMessages(prev => [...prev, {
+        id: Date.now() + 1, sender: 'bot', text: '❌ Error executing query.', timestamp: 'Just now'
+      }]);
+    }
   };
 
   return (
@@ -159,7 +248,9 @@ export const VenueProvider = ({ children }) => {
       showToast,
       placeExpressOrder,
       chatMessages,
-      askAIAssistant
+      askAIAssistant,
+      geminiApiKey,
+      setGeminiApiKey
     }}>
       {children}
     </VenueContext.Provider>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "bag_policy",
+    "keywords": ["bag", "backpack", "purse", "clear", "bring"],
+    "policy": "Clear bags that do not exceed 12\" x 6\" x 12\" and small clutch purses (no larger than 4.5\" x 6.5\") are permitted. All other bags, including backpacks, are strictly prohibited."
+  },
+  {
+    "id": "stroller_policy",
+    "keywords": ["stroller", "baby", "child", "pram"],
+    "policy": "Strollers are permitted but must be folded and placed under your seat or checked at Guest Services near Gate A. They cannot block aisles."
+  },
+  {
+    "id": "outside_food",
+    "keywords": ["outside", "food", "drink", "water", "snacks", "bring"],
+    "policy": "Outside food and beverages are not allowed, except for one factory-sealed water bottle (up to 20 oz) per guest."
+  },
+  {
+    "id": "food_locations_burgers",
+    "keywords": ["burger", "burgers", "food", "eat", "hungry"],
+    "policy": "Gourmet Burgers and Fries are available at 'The Grill' located near Section 106 and 'Stadium Bites' near Section 212."
+  },
+  {
+    "id": "food_locations_vegan",
+    "keywords": ["vegan", "vegetarian", "healthy", "salad", "food"],
+    "policy": "Vegan and vegetarian options, including plant-based burgers and salads, are available exclusively at 'Green Goal' near Section 115."
+  },
+  {
+    "id": "wifi",
+    "keywords": ["wifi", "internet", "connect", "network"],
+    "policy": "Free high-speed Wi-Fi is available to all guests. Connect to the network 'Stadia_Free_WiFi' and accept the terms of service on the login page."
+  },
+  {
+    "id": "smoking",
+    "keywords": ["smoke", "smoking", "vape", "cigarette"],
+    "policy": "This is a completely smoke-free facility. Smoking, including e-cigarettes and vaping, is strictly prohibited everywhere inside the stadium."
+  },
+  {
+    "id": "lost_and_found",
+    "keywords": ["lost", "found", "missing", "item"],
+    "policy": "Lost and Found is located at the main Guest Services desk behind Section 101. Items are kept for 30 days."
+  }
+]

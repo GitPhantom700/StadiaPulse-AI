@@ -4,8 +4,9 @@ import { PRESET_AI_QUERIES } from '../../data/mockVenueData';
 import { Bot, Send, User } from 'lucide-react';
 
 export default function AIConsole() {
-  const { chatMessages, askAIAssistant } = useVenue();
+  const { chatMessages, askAIAssistant, geminiApiKey, setGeminiApiKey } = useVenue();
   const [inputText, setInputText] = useState('');
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -146,6 +147,32 @@ export default function AIConsole() {
           <Send size={18} />
         </button>
       </form>
+
+      {/* API Key Settings */}
+      <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <button 
+          onClick={() => setShowSettings(!showSettings)}
+          style={{ background: 'none', border: 'none', color: '#64748b', fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}
+        >
+          ⚙️ AI Settings
+        </button>
+        {showSettings && (
+          <input 
+            type="password"
+            placeholder="Enter Google Gemini API Key"
+            value={geminiApiKey}
+            onChange={(e) => setGeminiApiKey(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              border: '1px solid #cbd5e1',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              outline: 'none'
+            }}
+          />
+        )}
+      </div>
 
     </div>
   );
