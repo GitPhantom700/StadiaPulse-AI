@@ -14,7 +14,7 @@
 
 #### 🎥 App Walkthrough
 <p align="center">
-  <img src="images/demo.gif" alt="StadiaPulse AI Demo" width="900"/>
+  <img src="images/demo_v2.gif" alt="StadiaPulse AI Demo" width="900"/>
 </p>
 
 #### Attendee Experience
@@ -24,7 +24,7 @@
   <img src="images/attendee_heatmap.png" alt="Interactive Heatmap" width="900"/><br><br>
   <img src="images/attendee_food.png" alt="Express Concessions" width="900"/><br><br>
   <img src="images/attendee_restrooms.png" alt="Restroom Tracker" width="900"/><br><br>
-  <img src="images/attendee_stadiabot.png" alt="StadiaBot AI" width="900"/><br><br>
+  <img src="images/attendee_stadiabot_v3.png" alt="StadiaBot AI" width="900"/><br><br>
   <img src="images/attendee_friends.png" alt="Group Radar" width="900"/>
 </p>
 
