@@ -124,15 +124,31 @@ export const VenueProvider = ({ children }) => {
     const userMsg = { id: Date.now(), sender: 'user', text: userQuery, timestamp: 'Just now' };
     setChatMessages(prev => [...prev, userMsg]);
 
+    const q = userQuery.toLowerCase();
+    const getFallbackResponse = () => {
+      if (q.includes('gate') || q.includes('entry') || q.includes('wait time')) {
+        const bestGate = [...gates].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
+        return `✨ **Gate Recommendation**: **${bestGate.name}** currently has the shortest queue with only a **${bestGate.waitMinutes}-minute wait**! Avoid Gate A.`;
+      } else if (q.includes('restroom') || q.includes('toilet') || q.includes('bathroom')) {
+        const bestRR = [...restrooms].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
+        return `🚽 The shortest restroom line is at **${bestRR.location}** with an estimated wait of **${bestRR.waitMinutes} minutes** (${bestRR.openStalls} stalls available).`;
+      } else if (q.includes('drink') || q.includes('beer') || q.includes('food') || q.includes('eat')) {
+        const bestFood = [...concessions].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
+        return `🍔 I recommend **${bestFood.name}** (${bestFood.sector}). Wait time is only **${bestFood.waitMinutes} mins** with Express Mobile Pickup!`;
+      } else {
+        return `🤖 I've analyzed stadium sensors for: "${userQuery}". All telemetry indicators show optimal flow around East Concourse (Sec 106). Gate B is your best entry point!`;
+      }
+    };
+
     if (!geminiApiKey) {
       setTimeout(() => {
         setChatMessages(prev => [...prev, {
           id: Date.now() + 1,
           sender: 'bot',
-          text: '⚠️ **Missing API Key**: Please enter your Gemini API Key in the settings below to enable live AI routing!',
+          text: `📡 **[Offline Mode - Mock Data]**\n\n${getFallbackResponse()}`,
           timestamp: 'Just now'
         }]);
-      }, 500);
+      }, 600);
       return;
     }
 
@@ -197,26 +213,10 @@ USER QUERY: "${userQuery}"`;
       const errData = await res.json().catch(() => ({}));
       const errMsg = errData.error?.message || `HTTP ${res.status}: ${res.statusText}`;
 
-      // Fallback to Smart Telemetry Engine if API Key is rejected by Google
-      const q = userQuery.toLowerCase();
-      let fallbackText = "";
-      if (q.includes('gate') || q.includes('entry') || q.includes('wait time')) {
-        const bestGate = [...gates].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
-        fallbackText = `✨ **Gate Recommendation**: **${bestGate.name}** currently has the shortest queue with only a **${bestGate.waitMinutes}-minute wait**! Avoid Gate A.`;
-      } else if (q.includes('restroom') || q.includes('toilet') || q.includes('bathroom')) {
-        const bestRR = [...restrooms].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
-        fallbackText = `🚽 The shortest restroom line is at **${bestRR.location}** with an estimated wait of **${bestRR.waitMinutes} minutes** (${bestRR.openStalls} stalls available).`;
-      } else if (q.includes('drink') || q.includes('beer') || q.includes('food') || q.includes('eat')) {
-        const bestFood = [...concessions].sort((a, b) => a.waitMinutes - b.waitMinutes)[0];
-        fallbackText = `🍔 I recommend **${bestFood.name}** (${bestFood.sector}). Wait time is only **${bestFood.waitMinutes} mins** with Express Mobile Pickup!`;
-      } else {
-        fallbackText = `🤖 I've analyzed stadium sensors for: "${userQuery}". All telemetry indicators show optimal flow around East Concourse (Sec 106). Gate B is your best entry point!`;
-      }
-
       setChatMessages(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'bot',
-        text: `⚠️ **[Google API Rejected Key: ${errMsg}]**\n\n⚡ **[Fallback Telemetry AI Response]**\n${fallbackText}`,
+        text: `⚠️ **[Google API Rejected Key: ${errMsg}]**\n\n⚡ **[Fallback Telemetry AI Response]**\n${getFallbackResponse()}`,
         timestamp: 'Just now'
       }]);
 

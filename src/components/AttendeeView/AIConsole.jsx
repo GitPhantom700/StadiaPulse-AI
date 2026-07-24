@@ -68,9 +68,16 @@ export default function AIConsole() {
             <Bot size={24} />
           </div>
           <div>
-            <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.2 }}>
-              StadiaBot AI
-            </h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.2 }}>
+                StadiaBot AI
+              </h3>
+              {geminiApiKey ? (
+                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#16a34a', background: '#dcfce7', padding: '2px 6px', borderRadius: '4px' }}>Live AI</span>
+              ) : (
+                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#64748b', background: '#e2e8f0', padding: '2px 6px', borderRadius: '4px' }}>Offline Mode</span>
+              )}
+            </div>
             <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '4px 0 0 0', lineHeight: 1.3 }}>
               Powered by real-time stadium telemetry
             </p>
