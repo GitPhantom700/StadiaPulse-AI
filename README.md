@@ -8,9 +8,32 @@
 > **PromptWars Virtual — Challenge 1 Submission**  
 > *Real-time stadium crowd intelligence, AI gate routing, express concession ordering, and telemetry dashboard powered by React 19 & Google Antigravity AI.*
 
+🌐 **[Live Demo: Play with StadiaPulse AI](https://gitphantom700.github.io/StadiaPulse-AI/)**
+
+### 📸 Application Previews
+
+#### Mobile Attendee Experience
+<img src="images/attendee_view.jpg" alt="Mobile Attendee View" width="800"/>
+
+#### Operations Command Center
+<img src="images/ops_dashboard.jpg" alt="Operations Dashboard" width="800"/>
+
+#### StadiaBot Conversational AI
+<img src="images/stadiabot_ai.jpg" alt="StadiaBot AI" width="800"/>
+
 ---
 
 ## 📌 Project Overview
+
+---
+
+## 🛑 Problem Statement
+
+Large stadium events often face critical operational friction during peak moments:
+- **Massive Gate Congestion:** Attendees face unpredictable wait times at entry points, leading to frustration and delayed entry.
+- **Concourse Bottlenecks:** Crowds pile up in specific sectors while alternative routes remain empty.
+- **Concession Delays:** Long lines for food and beverages reduce fan enjoyment and venue revenue.
+- **Lack of Real-Time Coordination:** Venue operations staff lack the live, predictive telemetry needed to redirect fans *before* bottlenecks become critical.
 
 **StadiaPulse AI** solves physical crowd congestion, gate security delays, concession line bottlenecks, and venue operations coordination for large-scale stadium events. It delivers a dual-interface platform:
 1. **Attendee Mobile View**: Live entry gate wait times, stadium heatmaps, digital ticket wallet, mobile concessions pickup, restroom stall availability, group friend radar, and an interactive **StadiaBot AI Assistant**.
