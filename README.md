@@ -12,6 +12,11 @@
 
 ### 📸 Application Previews
 
+#### 🎥 App Walkthrough
+<p align="center">
+  <img src="images/demo.gif" alt="StadiaPulse AI Demo" width="300"/>
+</p>
+
 #### Mobile Attendee Experience
 <p align="center">
   <img src="images/attendee_ticket.png" alt="Digital Ticket QR Wallet" width="300"/>
