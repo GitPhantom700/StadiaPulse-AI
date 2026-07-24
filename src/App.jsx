@@ -127,7 +127,7 @@ function MainApp() {
         gap: '12px'
       }}>
         <div>
-          <strong>StadiaPulse AI</strong> — PromptWars Challenge 1 Winning Submission
+          <strong>StadiaPulse AI</strong> — PromptWars Challenge 1 Submission
         </div>
         <div>
           Real-Time Sensor Telemetry Engine v1.0 • Built with React & Vite
